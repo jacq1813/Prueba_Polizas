@@ -1,0 +1,108 @@
+<div class="container mt-4">
+  <div class="text-center mb-4">
+    <h2 class="fw-bold">Gestión de pólizas</h2>
+  </div>
+
+  <div *ngIf="mensaje" class="alert {{tipoAlerta}} text-center shadow-sm" role="alert">
+    <strong>{{ mensaje }}</strong>
+  </div>
+
+  <ul class="nav nav-tabs mb-4">
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="seccionActual === 'crear'" 
+         (click)="cambiarSeccion('crear')" href="#">Crear póliza</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="seccionActual === 'consultar'" 
+         (click)="cambiarSeccion('consultar')" href="#">Consultar</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="seccionActual === 'actualizar'" 
+         (click)="cambiarSeccion('actualizar')" href="#">Actualizar</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-danger" [class.active]="seccionActual === 'eliminar'" 
+         (click)="cambiarSeccion('eliminar')" href="#">Eliminar</a>
+    </li>
+  </ul>
+
+  <div *ngIf="seccionActual === 'crear'" class="card shadow p-4 animate__animated animate__fadeIn">
+    <h4 class="mb-3 text-success">Generar nueva póliza</h4>
+    <div class="row g-3">
+      <div class="col-md-4">
+        <label class="form-label">ID Empleado</label>
+        <input type="number" class="form-control" [(ngModel)]="polizaForm.idEmpleado" placeholder="Ej: 1">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">SKU Artículo</label>
+        <input type="number" class="form-control" [(ngModel)]="polizaForm.sku" placeholder="Ej: 100">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Cantidad</label>
+        <input type="number" class="form-control" [(ngModel)]="polizaForm.cantidad" placeholder="Ej: 5">
+      </div>
+      <div class="col-12 mt-4">
+        <button class="btn btn-success w-100 btn-lg" (click)="grabar()">Guardar póliza</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="seccionActual === 'consultar'" class="card shadow p-4">
+    <h4 class="mb-3 text-primary">Consultar póliza</h4>
+    <div class="input-group mb-3">
+      <input type="number" class="form-control" [(ngModel)]="idBusqueda" placeholder="Ingresa ID de la póliza a buscar">
+      <button class="btn btn-primary" (click)="buscar()">Buscar</button>
+    </div>
+
+    <div *ngIf="resultado && resultado.Poliza" class="card border-primary mt-3">
+      <div class="card-header bg-primary text-white">
+        Detalle de póliza #{{ resultado.Poliza.IDPoliza }}
+      </div>
+      <div class="card-body">
+        <div class="row text-center">
+          <div class="col-md-4">
+            <h5 class="text-muted">Empleado</h5>
+            <p class="fs-5">{{ resultado.Empleado.Nombre }} {{ resultado.Empleado.Apellido }}</p>
+          </div>
+          <div class="col-md-4 border-start border-end">
+            <h5 class="text-muted">Artículo</h5>
+            <p class="fs-5">{{ resultado['Detalle Articulo'].Nombre }}</p>
+            <small class="text-muted">SKU: {{ resultado['Detalle Articulo'].SKU }}</small>
+          </div>
+          <div class="col-md-4">
+            <h5 class="text-muted">Cantidad</h5>
+            <p class="fs-4 fw-bold text-danger">{{ resultado.Poliza.Cantidad }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="seccionActual === 'actualizar'" class="card shadow p-4 border-warning">
+    <h4 class="mb-3 text-warning">Actualizar póliza</h4>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label fw-bold">ID de la póliza a actualizar</label>
+        <input type="number" class="form-control" [(ngModel)]="polizaForm.idPoliza" placeholder="Ej: 5">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label fw-bold">Nuevo ID de empleado</label>
+        <input type="number" class="form-control" [(ngModel)]="polizaForm.idEmpleado" placeholder="Ej: 2">
+      </div>
+      <div class="col-12 mt-4">
+        <button class="btn btn-warning w-100 btn-lg text-white" (click)="actualizar()">Actualizar</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="seccionActual === 'eliminar'" class="card shadow p-4 border-danger">
+    <h4 class="mb-3 text-danger">Eliminar póliza</h4>
+    
+    <div class="input-group mb-3">
+      <span class="input-group-text bg-danger text-white">ID póliza</span>
+      <input type="number" class="form-control" [(ngModel)]="idEliminar" placeholder="ID de la póliza a borrar">
+      <button class="btn btn-outline-danger" (click)="eliminar()">Eliminar</button>
+    </div>
+  </div>
+
+</div>
