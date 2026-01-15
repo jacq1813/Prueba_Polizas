@@ -34,7 +34,7 @@ tener instalado lo siguiente en tu entorno local:
 
 Pasos orden para levantar el proyecto localmente.
 
-### 1. Base de Datos 🗄️
+### 1. Base de Datos
 
 1.  Abre pgAdmin
 2.  Crea una base de datos llamada `PolizasDB`.
